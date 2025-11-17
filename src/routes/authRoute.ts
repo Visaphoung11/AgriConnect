@@ -3,11 +3,12 @@ import {
   registerController,
   loginController,
 } from "../controllers/authController";
+
 const router = express.Router();
 
 /**
  * @swagger
- * /auth/register:
+ * /api/v1/auth/register:
  *   post:
  *     tags: [Auth]
  *     summary: Register a new user
@@ -20,34 +21,25 @@ const router = express.Router();
  *     responses:
  *       201:
  *         description: User registered successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "User registered successfully"
- *                 user:
- *                   $ref: '#/components/schemas/RegisterUser'
  */
 router.post("/register", registerController);
 
-/* #swagger.tags = ['Auth']
-   #swagger.summary = 'Login user'
-
-   #swagger.requestBody = {
-     required: true,
-     content: {
-       "application/json": {
-         schema: { $ref: "#/definitions/LoginUser" }
-       }
-     }
-   }
-   #swagger.responses[200] = {
-     description: "Login successful, returns JWT token"
-   }
-*/
+/**
+ * @swagger
+ * /api/v1/auth/login:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Login user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/LoginUser'
+ *     responses:
+ *       200:
+ *         description: Login successful, returns JWT token
+ */
 router.post("/login", loginController);
 
 export default router;

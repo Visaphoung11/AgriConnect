@@ -6,9 +6,10 @@ import { seedAdminUser } from "@/scripts/seedAdmin"
 dotenv.config();
 const app = express();
 
-import swaggerUI from 'swagger-ui-express';
-import swaggerFile from "./docs/swagger.json" 
 
+
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "@/docs/swagger";
 
 // Middleware
 app.use(express.json());
@@ -33,7 +34,8 @@ const swaggerOptions = {
 // });
 
 // Routes
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerFile, swaggerOptions));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.use("/api/v1", router); // existing routes
 
 

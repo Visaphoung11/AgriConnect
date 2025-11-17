@@ -1,5 +1,6 @@
 import { Schema, Document, model } from "mongoose";
 import { IUser } from "@/types/user";
+import { match } from "assert";
 
 const userSchema = new Schema(
   {
@@ -50,6 +51,7 @@ const userSchema = new Schema(
       required: [true, "Phone number is required"],
       unique: true,
       trim: true,
+      // match: [], // 
       validate: {
         validator: function (value: string) {
           return /^[0-9]{8,15}$/.test(value); // 8–15 digits
