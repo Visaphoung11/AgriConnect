@@ -57,7 +57,7 @@ export const Loginservice = async (req: Request, res: Response) => {
       },
       process.env.JWT_SECRET || "SECRET_KEY",
       {}
-    ); // update JWT Token Generation over here then we have to Create Role Middleware go to Create src/middlewares/roleMiddleware.ts
+    );
 
     return res.status(200).json({ message: "Login successful", token });
   } catch (error) {
