@@ -31,11 +31,12 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Email is required"],
       unique: true,
-      trim: true,
+      trim: true, // Before saving this value to the database, remove ALL spaces at the beginning and at the end.
+      // "   test@gmail.com   " using trim to covert to "test@gmail.com"
       lowercase: true,
       validate: {
         validator: function (value: string) {
-          return /^\S+@\S+\.\S+$/.test(value); // basic email validation using regular expression 
+          return /^\S+@\S+\.\S+$/.test(value); // basic email validation using regular expression
         },
         message: "Please provide a valid email address",
       },
@@ -51,7 +52,7 @@ const userSchema = new Schema(
       required: [true, "Phone number is required"],
       unique: true,
       trim: true,
-      // match: [], // 
+      // match: [], //
       validate: {
         validator: function (value: string) {
           return /^[0-9]{8,15}$/.test(value); // 8–15 digits

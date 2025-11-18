@@ -1,13 +1,13 @@
 export enum UserRole {
   ADMIN = "admin",
-  Author_Editor = "editor",
+  FARMER = "farmer",
   USER = "user",
   SUPER_ADMIN = "super_admin",
-  GUEST = "guest",
+  CUSTOMER = "comstomer",
 }
 
 export enum Gender {
   MALE = "male",
   FEMALE = "female",
   OTHER = "other",
-} // This is the first step of making Admin role to login then  create src/enum/index.ts to export it
+} 

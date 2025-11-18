@@ -18,20 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 // Connect DB
 connectDB();
 seedAdminUser();
-// Swagger UI
-const swaggerOptions = {
-  explorer: true,
-  swaggerOptions: {
-    url: '/swagger.json',
-    validatorUrl: null
-  }
-};
 
-// Serve Swagger JSON
-// app.get('/swagger.json', (_req, res) => {
-//   res.setHeader('Content-Type', 'application/json');
-//   res.send(swaggerFile);
-// });
 
 // Routes
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));

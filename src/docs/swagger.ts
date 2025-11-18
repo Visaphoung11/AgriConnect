@@ -37,8 +37,8 @@ const options = {
           type: "object",
           required: ["email", "password"],
           properties: {
-            email: { type: "string", example: "user@example.com" },
-            password: { type: "string", example: "123456" },
+            email: { type: "string", example: "admin@example.com" },
+            password: { type: "string", example: "chang123456" },
           },
         },
 

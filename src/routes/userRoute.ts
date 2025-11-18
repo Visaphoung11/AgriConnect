@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { getUsers, getUserById } from "@/controllers/userController";
 import { roleCheck } from "@/middlewares/roleMiddleware";
-
+import { UserRole } from "@/enum";
 const router = Router();
 
 // Apply role check middleware to all routes (Admin/Staff only)
-router.use(roleCheck(["Admin", "Staff"]));
+router.use(roleCheck([UserRole.ADMIN]));
 
 /**
  * @swagger
