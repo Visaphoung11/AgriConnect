@@ -17,7 +17,7 @@ export const Registerservice = async (req: Request, res: Response) => {
     const newUser = new UserModel({
       firstName,
       lastName,
-      userName,
+      // userName,
       age,
       role,
       phone,

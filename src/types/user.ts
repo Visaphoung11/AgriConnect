@@ -15,7 +15,7 @@ export interface IUser {
 export interface RegisterInput {
   firstName: String;
   lastName: String;
-  userName: String;
+  // userName: String;
   age: Number;
   role?: String;
   phone: String;

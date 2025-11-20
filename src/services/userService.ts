@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { UserModel } from "@/models/userModel";
 import { UserRoleModel } from "@/models/UserRoleModel";
-
+import { RoleModel } from "@/models/roleModel";
 
 // Get all users with pagination
 export const GetAllUsers = async (req: any) => {
@@ -114,50 +114,50 @@ export const GetUserById = async (req: any) => {
 /**
  * UPDATE USER PROFILE
  */
-// export const UpdateUserProfile = async (req: any) => {
-//   try {
-//     const { id } = req.params;
-//     const updateData = req.body;
+export const UpdateUserProfile = async (req: any) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
 
-//     if (!Types.ObjectId.isValid(id)) {
-//       return { status: 400, message: "Invalid user ID format" };
-//     }
+    if (!Types.ObjectId.isValid(id)) {
+      return { status: 400, message: "Invalid user ID format" };
+    }
 
-//     delete updateData.password;
+    delete updateData.password;
 
-//     if (updateData.email || updateData.userName) {
-//       const exists = await UserModel.findOne({
-//         $or: [
-//           ...(updateData.email ? [{ email: updateData.email }] : []),
-//           ...(updateData.userName ? [{ userName: updateData.userName }] : []),
-//         ],
-//         _id: { $ne: id },
-//       });
+    if (updateData.email || updateData.userName) {
+      const exists = await UserModel.findOne({
+        $or: [
+          ...(updateData.email ? [{ email: updateData.email }] : []),
+          ...(updateData.userName ? [{ userName: updateData.userName }] : []),
+        ],
+        _id: { $ne: id },
+      });
 
-//       if (exists) {
-//         return {
-//           status: 400,
-//           message: "Email or Username already exists",
-//         };
-//       }
-//     }
+      if (exists) {
+        return {
+          status: 400,
+          message: "Email or Username already exists",
+        };
+      }
+    }
 
-//     const updatedUser = await UserModel.findByIdAndUpdate(id, updateData, {
-//       new: true,
-//       runValidators: true,
-//     }).select("-password");
+    const updatedUser = await UserModel.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true,
+    }).select("-password");
 
-//     if (!updatedUser) return { status: 404, message: "User not found" };
+    if (!updatedUser) return { status: 404, message: "User not found" };
 
-//     return {
-//       status: 200,
-//       message: "User updated successfully",
-//       user: updatedUser,
-//     };
-//   } catch (error: any) {
-//     return { status: 500, message: error.message };
-//   }
-// };
+    return {
+      status: 200,
+      message: "User updated successfully",
+      user: updatedUser,
+    };
+  } catch (error: any) {
+    return { status: 500, message: error.message };
+  }
+};
 
 /**
  * DELETE USER
@@ -228,77 +228,77 @@ export const DeleteUser = async (req: any) => {
 /**
  * SEARCH USERS
  */
-// export const SearchUsers = async (req: any) => {
-//   try {
-//     const page = parseInt(req.query.page) || 1;
-//     const limit = parseInt(req.query.limit) || 10;
-//     const skip = (page - 1) * limit;
+export const SearchUsers = async (req: any) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
 
-//     let query: any = {};
+    let query: any = {};
 
-//     ["email", "userName", "firstName", "lastName"].forEach((key) => {
-//       if (req.query[key]) {
-//         query[key] = { $regex: req.query[key], $options: "i" };
-//       }
-//     });
+    ["email", "userName", "firstName", "lastName"].forEach((key) => {
+      if (req.query[key]) {
+        query[key] = { $regex: req.query[key], $options: "i" };
+      }
+    });
 
-//     let users = await UserModel.find(query)
-//       .select("-password")
-//       .skip(skip)
-//       .limit(limit);
+    let users = await UserModel.find(query)
+      .select("-password")
+      .skip(skip)
+      .limit(limit);
 
-//     const total = await UserModel.countDocuments(query);
+    const total = await UserModel.countDocuments(query);
 
-//     return {
-//       status: 200,
-//       message: "Search results retrieved",
-//       users,
-//       pagination: {
-//         page,
-//         limit,
-//         total,
-//         totalPages: Math.ceil(total / limit),
-//       },
-//     };
-//   } catch (error: any) {
-//     return { status: 500, message: error.message };
-//   }
-// };
+    return {
+      status: 200,
+      message: "Search results retrieved",
+      users,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  } catch (error: any) {
+    return { status: 500, message: error.message };
+  }
+};
 
 /**
  * GET USERS BY ROLE NAME
  */
-// export const GetUsersByRoleName = async (req: any) => {
-//   try {
-//     const { roleName } = req.params;
+export const GetUsersByRoleName = async (req: any) => {
+  try {
+    const { roleName } = req.params;
 
-//     const role = await RoleModel.findOne({ name: roleName });
-//     if (!role) return { status: 404, message: "Role not found" };
+    const role = await RoleModel.findOne({ name: roleName });
+    if (!role) return { status: 404, message: "Role not found" };
 
-//     const page = parseInt(req.query.page) || 1;
-//     const limit = parseInt(req.query.limit) || 10;
-//     const skip = (page - 1) * limit;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
 
-//     const roleUsers = await UserRoleModel.find({ roleId: role._id })
-//       .populate("userId", "userName email firstName lastName")
-//       .skip(skip)
-//       .limit(limit);
+    const roleUsers = await UserRoleModel.find({ roleId: role._id })
+      .populate("userId", "userName email firstName lastName")
+      .skip(skip)
+      .limit(limit);
 
-//     const total = await UserRoleModel.countDocuments({ roleId: role._id });
+    const total = await UserRoleModel.countDocuments({ roleId: role._id });
 
-//     return {
-//       status: 200,
-//       message: "Users by role retrieved",
-//       role,
-//       users: roleUsers,
-//       pagination: {
-//         page,
-//         limit,
-//         total,
-//         totalPages: Math.ceil(total / limit),
-//       },
-//     };
-//   } catch (error: any) {
-//     return { status: 500, message: error.message };
-//   }
-// };
+    return {
+      status: 200,
+      message: "Users by role retrieved",
+      role,
+      users: roleUsers,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  } catch (error: any) {
+    return { status: 500, message: error.message };
+  }
+};

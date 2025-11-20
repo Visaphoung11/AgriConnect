@@ -15,13 +15,13 @@ const userSchema = new Schema(
       trim: true,
     },
 
-    userName: {
-      type: String,
-      required: [true, "Username is required"],
-      unique: true,
-      trim: true,
-      lowercase: true,
-    },
+    // userName: {
+    //   type: String,
+    //   required: [true, "Username is required"],
+    //   unique: true,
+    //   trim: true,
+    //   lowercase: true,
+    // },
 
     age: {
       type: Number, // optional
