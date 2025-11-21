@@ -76,6 +76,80 @@ router.use(roleCheck([UserRole.ADMIN]));
  *         description: Forbidden - Admin or Staff access required
  */
 router.get("/", getUsers);
+/**
+ * @swagger
+ * /api/v1/users/search:
+ *   get:
+ *     summary: Search users by name, username, email, or phone
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: q
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Search query to match email, username, firstName, or lastName
+ *         example: "john123"
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number for pagination
+ *       - in: query
+ *         name: limit
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Number of users per page
+ *     responses:
+ *       200:
+ *         description: Users matching search criteria
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: "Users retrieved successfully"
+ *                 users:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/UserWithRoles'
+ *                 pagination:
+ *                   type: object
+ *                   properties:
+ *                     page:
+ *                       type: integer
+ *                       example: 1
+ *                     limit:
+ *                       type: integer
+ *                       example: 10
+ *                     total:
+ *                       type: integer
+ *                       example: 25
+ *                     totalPages:
+ *                       type: integer
+ *                       example: 3
+ *       400:
+ *         description: Invalid search query
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden - Admin or Staff access required
+ */
+
+
+router.get("/search", searchUsers);
+
 
 /**
  * @swagger
@@ -159,12 +233,20 @@ router.delete("/:id", deleteUser);
 
 /**
  * @swagger
- * /api/v1/users/profile:
+ * /api/v1/users/profile/{id}:
  *   put:
- *     summary: Update the profile of the logged-in user
+ *     summary: Update user profile by ID
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "691a99dd89f07318c139cf94"
+ *         description: ID of the user to update
  *     requestBody:
  *       description: Fields to update in user profile
  *       required: true
@@ -175,22 +257,19 @@ router.delete("/:id", deleteUser);
  *             properties:
  *               firstName:
  *                 type: string
- *                 example: "John"
  *               lastName:
  *                 type: string
- *                 example: "Doe"
  *               email:
  *                 type: string
- *                 example: "john.doe@example.com"
+ *               userName:
+ *                 type: string
  *               phone:
  *                 type: string
- *                 example: "+85512345678"
  *               age:
  *                 type: number
- *                 example: 25
  *     responses:
  *       200:
- *         description: Profile updated successfully
+ *         description: User updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -198,83 +277,19 @@ router.delete("/:id", deleteUser);
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Profile updated successfully"
  *                 user:
  *                   $ref: '#/components/schemas/User'
  *       400:
- *         description: Invalid input data
- *       401:
- *         description: Unauthorized - token missing or invalid
+ *         description: Invalid user ID or email/username already exists
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
  */
 
-router.put("/api/v1/users/profile", updateUserProfile);
 
-/**
- * @swagger
- * /api/v1/users/search:
- *   get:
- *     summary: Search users by name, username, email, or phone
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: query
- *         name: q
- *         required: true
- *         schema:
- *           type: string
- *         description: Search query
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *           default: 1
- *         description: Page number
- *       - in: query
- *         name: limit
- *         schema:
- *           type: integer
- *           default: 10
- *         description: Number of users per page
- *     responses:
- *       200:
- *         description: Users matching search criteria
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Users retrieved successfully"
- *                 users:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/UserWithRoles'
- *                 pagination:
- *                   type: object
- *                   properties:
- *                     currentPage:
- *                       type: integer
- *                     totalPages:
- *                       type: integer
- *                     totalUsers:
- *                       type: integer
- *                     limit:
- *                       type: integer
- *                     hasNext:
- *                       type: boolean
- *                     hasPrev:
- *                       type: boolean
- *       400:
- *         description: Invalid search query
- *       401:
- *         description: Unauthorized
- *       403:
- *         description: Forbidden - Admin or Staff access required
- */
+router.put("/profile/:id", updateUserProfile);
 
-router.get("/api/v1/users/search", searchUsers);
 
 /**
  * @swagger
@@ -341,6 +356,6 @@ router.get("/api/v1/users/search", searchUsers);
  *       403:
  *         description: Forbidden - Admin or Staff access required
  */
-router.get("/api/v1/users/role/{roleName}", getUsersByRoleName);
+router.get("/role/{roleName}", getUsersByRoleName);
 
 export default router;
