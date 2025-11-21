@@ -2,14 +2,12 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/database";
 import router from "./routes/index";
-import { seedAdminUser } from "@/scripts/seedAdmin"
+import { seedAdminUser } from "@/scripts/seedAdmin";
 dotenv.config();
 const app = express();
 
-
-
 import swaggerUi from "swagger-ui-express";
-import swaggerSpec from "@/docs/swagger";
+import swaggerSpec from "@/config/swagger";
 
 // Middleware
 app.use(express.json());
@@ -19,12 +17,10 @@ app.use(express.urlencoded({ extended: true }));
 connectDB();
 seedAdminUser();
 
-
 // Routes
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/v1", router); // existing routes
-
 
 // Error handling
 app.use(

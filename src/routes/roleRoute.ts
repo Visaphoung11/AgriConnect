@@ -26,38 +26,38 @@ router.use(roleCheck([UserRole.ADMIN]));
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required:
- *               - name
- *             properties:
- *               name:
- *                 type: string
- *                 example: "Manager"
- *               description:
- *                 type: string
- *                 example: "Department manager"
+ *             $ref: '#/components/schemas/RoleInput'
  *     responses:
- *       201:
+ *       '201':
  *         description: Role created successfully
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Role created successfully"
- *                 role:
- *                   $ref: '#/components/schemas/Role'
- *       400:
- *         description: Bad request
+ *               $ref: '#/components/schemas/RoleResponse'
+ *       '400':
+ *         description: Bad request - Role with this name already exists
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Error'
- *       401:
- *         description: Unauthorized
- *       403:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       '401':
+ *         description: Unauthorized - Missing or invalid token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       '403':
+ *         description: Forbidden - Insufficient permissions
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       '500':
+ *         description: "Internal server error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  *         description: Forbidden - Admin access required
  */
 router.post("/", roleCheck([UserRole.ADMIN]), createRole);
@@ -71,7 +71,7 @@ router.post("/", roleCheck([UserRole.ADMIN]), createRole);
  *     security:
  *       - bearerAuth: []
  *     responses:
- *       200:
+ *       '200':
  *         description: Roles retrieved successfully
  *         content:
  *           application/json:

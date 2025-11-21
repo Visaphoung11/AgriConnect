@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import { Registerservice } from "@/services/authService";
-import { Loginservice } from "@/services/authService"
+import { Registerservice, Loginservice } from "@/services/authService";
 
 export const registerController = async (req: Request, res: Response) => {
   const result = await Registerservice(req, res);
@@ -10,3 +9,6 @@ export const loginController = async (req: Request, res: Response) => {
   const result = await Loginservice(req, res);
   return result;
 };
+
+
+
