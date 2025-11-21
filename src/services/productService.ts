@@ -7,8 +7,8 @@ export const CreateProduct = async (productData: any) => {
     // Set default values for required fields if not provided
     const productPayload = {
       ...productData,
-      // Use first image from images array if available, otherwise use empty string
-      image: productData.images?.[0] || '',
+      // Use image array from request, default to empty array
+      image: productData.image || [],
       // Set default userId if not provided (you might want to get this from auth token)
       userId: productData.userId || new mongoose.Types.ObjectId(),
       // Set available based on stock

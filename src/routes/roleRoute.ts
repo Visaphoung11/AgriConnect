@@ -58,7 +58,6 @@ router.use(roleCheck([UserRole.ADMIN]));
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
- *         description: Forbidden - Admin access required
  */
 router.post("/", roleCheck([UserRole.ADMIN]), createRole);
 

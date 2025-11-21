@@ -34,7 +34,7 @@ router.use(roleCheck([UserRole.ADMIN, UserRole.SELLER]));
  *               - description
  *               - price
  *               - stock
- *               - category
+ *               - categoryId
  *             properties:
  *               name:
  *                 type: string
@@ -48,10 +48,10 @@ router.use(roleCheck([UserRole.ADMIN, UserRole.SELLER]));
  *               stock:
  *                 type: integer
  *                 description: Available stock quantity
- *               category:
+ *               categoryId:
  *                 type: string
  *                 description: ID of the category this product belongs to
- *               images:
+ *               image:
  *                 type: array
  *                 items:
  *                   type: string
@@ -80,6 +80,8 @@ router.post("/", createProduct);
  *   get:
  *     summary: Get all products with optional filters
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: category
@@ -121,6 +123,8 @@ router.get("/", getProducts);
  *   get:
  *     summary: Get a product by ID
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id

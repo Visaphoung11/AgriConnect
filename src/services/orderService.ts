@@ -4,16 +4,17 @@ import { IOrder } from '../models/orderModel';
 import { UpdateProductStock } from './productService';
 import { IProduct } from '../models/productModel';
 
-export const CreateOrder = async (orderData: any) => {
+export const CreateOrder = async (orderData: any, customerId: string) => {
   const session = await Order.startSession();
   session.startTransaction();
-  
+
   try {
     const { items, ...orderDetails } = orderData;
-    
+
     // Create order
     const order = new Order({
       ...orderDetails,
+      customerId,
       status: 'pending',
       total: 0, // Will be calculated from items
     });

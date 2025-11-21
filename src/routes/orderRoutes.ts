@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { 
-  createOrder, 
-  getOrders, 
-  getOrderById, 
-  updateOrderStatus, 
-  deleteOrder 
+import {
+  createOrder,
+  getOrders,
+  getOrderById,
+  updateOrderStatus,
+  deleteOrder
 } from '../controllers/orderController';
 import { roleCheck, authenticate } from '@/middlewares/roleMiddleware';
 import { UserRole } from '@/enum';
@@ -66,48 +66,51 @@ router.delete(
  *           schema:
  *             type: object
  *             required:
+ *               - customerName
+ *               - phone
+ *               - address
  *               - items
- *               - shippingAddress
- *               - paymentMethod
+ *             example:
+ *               customerName: "John Doe"
+ *               phone: "+85512345678"
+ *               address: "123 Street Name, Phnom Penh, Cambodia"
+ *               items:
+ *                 - productId: "60d21b4667d0d8992e610c86"
+ *                   quantity: 2
+ *                 - productId: "60d21b4667d0d8992e610c87"
+ *                   quantity: 1
+ *                 - productId: "60d21b4667d0d8992e610c88"
+ *                   quantity: 3
  *             properties:
+ *               customerName:
+ *                 type: string
+ *                 description: Name of the customer
+ *                 example: "John Doe"
+ *               phone:
+ *                 type: string
+ *                 description: Customer phone number
+ *                 example: "+85512345678"
+ *               address:
+ *                 type: string
+ *                 description: Full shipping address
+ *                 example: "123 Street Name, Phnom Penh, Cambodia"
  *               items:
  *                 type: array
  *                 items:
  *                   type: object
  *                   required:
- *                     - product
+ *                     - productId
  *                     - quantity
  *                   properties:
- *                     product:
+ *                     productId:
  *                       type: string
  *                       description: ID of the product
+ *                       example: "60d21b4667d0d8992e610c86"
  *                     quantity:
  *                       type: number
  *                       minimum: 1
  *                       description: Quantity of the product
- *               shippingAddress:
- *                 type: object
- *                 required:
- *                   - address
- *                   - city
- *                   - postalCode
- *                   - country
- *                 properties:
- *                   address:
- *                     type: string
- *                   city:
- *                     type: string
- *                   postalCode:
- *                     type: string
- *                   country:
- *                     type: string
- *               paymentMethod:
- *                 type: string
- *                 enum: [credit_card, paypal, bank_transfer]
- *                 description: Payment method for the order
- *               notes:
- *                 type: string
- *                 description: Additional notes for the order
+ *                       example: 2
  *     responses:
  *       201:
  *         description: Order created successfully

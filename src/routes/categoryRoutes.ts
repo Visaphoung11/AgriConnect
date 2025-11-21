@@ -11,14 +11,70 @@ import { UserRole } from '@/enum';
 
 const router = Router();
 
+/**
+ * @swagger
+ * /api/v1/categories:
+ *   get:
+ *     summary: Get all categories
+ *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of categories
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Category'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /api/v1/categories/{id}:
+ *   get:
+ *     summary: Get a category by ID
+ *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Category ID
+ *     responses:
+ *       200:
+ *         description: Category data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Category'
+ *       404:
+ *         description: Category not found
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Server error
+ */
+
 // Apply authentication middleware to all routes
 router.use(roleCheck([UserRole.ADMIN, UserRole.FARMER, UserRole.SELLER]));
+
+router.get('/', getCategories);
+router.get('/:id', getCategoryById);
 
 /**
  * @swagger
  * /api/v1/categories:
  *   post:
- *     summary: Create a new category (Admin/Seller only)
+ *     summary: Create a new category (Admin/Seller/Farmer only)
  *     tags: [Categories]
  *     security:
  *       - bearerAuth: []
@@ -53,53 +109,6 @@ router.use(roleCheck([UserRole.ADMIN, UserRole.FARMER, UserRole.SELLER]));
  *         description: Server error
  */
 router.post('/', createCategory);
-
-/**
- * @swagger
- * /api/v1/categories:
- *   get:
- *     summary: Get all categories
- *     tags: [Categories]
- *     responses:
- *       200:
- *         description: List of categories
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Category'
- *       500:
- *         description: Server error
- */
-router.get('/', getCategories);
-
-/**
- * @swagger
- * /api/v1/categories/{id}:
- *   get:
- *     summary: Get a category by ID
- *     tags: [Categories]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: Category ID
- *     responses:
- *       200:
- *         description: Category data
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Category'
- *       404:
- *         description: Category not found
- *       500:
- *         description: Server error
- */
-router.get('/:id', getCategoryById);
 
 /**
  * @swagger

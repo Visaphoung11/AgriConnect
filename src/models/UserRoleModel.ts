@@ -7,6 +7,7 @@ const userRoleSchema = new Schema<IUserRole>(
   {
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     roleId: { type: Schema.Types.ObjectId, ref: "Role", required: true },
+    assignedBy: { type: Schema.Types.ObjectId, ref: "User" }, // Who assigned this role (optional)
     assignedAt: { type: Date, default: Date.now },
   },
   { timestamps: false }

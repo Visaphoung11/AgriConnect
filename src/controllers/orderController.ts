@@ -2,7 +2,9 @@ import { Request, Response } from 'express';
 import * as orderService from '../services/orderService';
 
 export const createOrder = async (req: Request, res: Response) => {
-  const result = await orderService.CreateOrder(req.body);
+  // Get customer ID from authenticated user
+  const customerId = (req as any).user.id;
+  const result = await orderService.CreateOrder(req.body, customerId);
   return res.status(result.status).json(result);
 };
 

@@ -66,6 +66,11 @@ const options = {
               example: '60d21b4667d0d8992e610c86',
               description: 'ID of the assigned role'
             },
+            assignedBy: {
+              type: 'string',
+              example: '60d21b4667d0d8992e610c89',
+              description: 'ID of the user who assigned this role'
+            },
             assignedAt: {
               type: 'string',
               format: 'date-time',
@@ -230,6 +235,11 @@ const options = {
         Order: {
           type: 'object',
           properties: {
+            customerId: {
+              type: 'string',
+              description: 'ID of the customer/user who placed the order',
+              example: '60d21b4667d0d8992e610c85',
+            },
             customerName: {
               type: 'string',
               description: 'Name of the customer',

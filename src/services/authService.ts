@@ -1,4 +1,6 @@
 import { UserModel } from "@/models/userModel";
+import { RoleModel } from "@/models/roleModel";
+import { UserRoleModel } from "@/models/UserRoleModel";
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import Jwt from "jsonwebtoken";
@@ -10,7 +12,7 @@ export const Registerservice = async (req: Request, res: Response) => {
     const existEmail = await UserModel.findOne({ email });
     if (existEmail) {
       return res.status(400).json({ message: "Email already exists" });
-}                                           
+}
     //hash password before saving to database (omitted for brevity)
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     //create new user
@@ -23,10 +25,28 @@ export const Registerservice = async (req: Request, res: Response) => {
       phone,
       email,
       password: hashedPassword,
-      
+
     });
     //save user to database
     await newUser.save();
+
+    // Assign the role if provided
+    if (role) {
+      let roleDoc = await RoleModel.findOne({ name: role.toUpperCase() });
+      if (!roleDoc) {
+        roleDoc = new RoleModel({ name: role.toUpperCase(), description: `${role} role` });
+        await roleDoc.save();
+      }
+      // For registration, assigner is admin/system, assuming admin's id is available or set as system
+      // For now, set assignedBy to the user themselves or system
+      const userRole = new UserRoleModel({
+        userId: newUser._id,
+        roleId: roleDoc._id,
+        assignedBy: newUser._id, // Self-assigned for registration
+      });
+      await userRole.save();
+    }
+
     res.status(201).json({ message: "User registered successfully", newUser });
   } catch (error) {
     console.error("Error in register service:", error);
