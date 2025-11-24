@@ -1,25 +1,5 @@
-import mongoose, { Document, Schema, Types } from 'mongoose';
-
-export interface IOrderItem {
-  _id: Types.ObjectId;
-  productId: Types.ObjectId;
-  quantity: number;
-  subtotal: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export interface IOrder extends Document {
-  customerId: Types.ObjectId;
-  customerName: string;
-  phone: string;
-  address: string;
-  total: number;
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
-  items: IOrderItem[];
-  createdAt: Date;
-  updatedAt: Date;
-}
+import mongoose, {  Schema } from 'mongoose';
+import { IOrder } from '@/types/order';
 
 const orderSchema = new Schema<IOrder>(
   {

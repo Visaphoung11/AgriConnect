@@ -12,7 +12,6 @@ import { UserRole } from "@/enum";
 
 const router = Router();
 
-// All routes below require Admin or Seller roles by default
 router.use(roleCheck([UserRole.ADMIN, UserRole.SELLER]));
 
 /**

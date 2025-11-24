@@ -28,10 +28,6 @@ export const deleteUser = async (req: Request, res: Response) => {
   return res.status(result.status).json(result);
 };
 
-// export const getUserStatistics = async (req: Request, res: Response) => {
-//   const result = await GetUserStatistics();
-//   return res.status(result.status).json(result);
-// };
 
 export const searchUsers = async (req: Request, res: Response) => {
   const result = await SearchUsers(req);

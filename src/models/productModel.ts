@@ -1,17 +1,6 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, {  Schema } from 'mongoose';
+import { IProduct } from '@/types/product';
 
-export interface IProduct extends Document {
-  userId: mongoose.Types.ObjectId;
-  categoryId: mongoose.Types.ObjectId;
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-  available: boolean;
-  image: string[];
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 const productSchema = new Schema<IProduct>(
   {

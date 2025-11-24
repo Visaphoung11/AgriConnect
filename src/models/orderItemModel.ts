@@ -1,13 +1,5 @@
-import mongoose, { Document, Schema } from 'mongoose';
-
-export interface IOrderItem extends Document {
-  orderId: mongoose.Types.ObjectId;
-  productId: mongoose.Types.ObjectId;
-  quantity: number;
-  subtotal: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import mongoose, { Schema } from 'mongoose';
+import { IOrderItem } from '@/types/orderItem';
 
 const orderItemSchema = new Schema<IOrderItem>(
   {

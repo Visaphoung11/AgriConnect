@@ -188,42 +188,6 @@ export const DeleteUser = async (req: any) => {
   }
 };
 
-/**
- * USER STATISTICS
- */
-// export const GetUserStatistics = async () => {
-//   try {
-//     const totalUsers = await UserModel.countDocuments();
-//     const activeUsers = await UserModel.countDocuments({
-//       isActive: { $ne: false },
-//     });
-
-//     const roleStats = await UserRoleModel.aggregate([
-//       { $group: { _id: "$roleId", count: { $sum: 1 } } },
-//       {
-//         $lookup: {
-//           from: "roles",
-//           localField: "_id",
-//           foreignField: "_id",
-//           as: "role",
-//         },
-//       },
-//       { $unwind: "$role" },
-//       { $project: { roleName: "$role.name", count: 1 } },
-//     ]);
-
-//     return {
-//       status: 200,
-//       message: "User statistics retrieved",
-//       totalUsers,
-//       activeUsers,
-//       inactiveUsers: totalUsers - activeUsers,
-//       roleDistribution: roleStats,
-//     };
-//   } catch (error: any) {
-//     return { status: 500, message: error.message };
-//   }
-// };
 
 /**
  * SEARCH USERS

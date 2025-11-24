@@ -1,9 +1,8 @@
 import Order from '../models/orderModel';
 import OrderItem from '../models/orderItemModel';
-import { IOrder } from '../models/orderModel';
+import { IOrder } from '@/types/order';
 import { UpdateProductStock } from './productService';
-import { IProduct } from '../models/productModel';
-
+import { IProduct } from '@/types/product';
 export const CreateOrder = async (orderData: any, customerId: string) => {
   const session = await Order.startSession();
   session.startTransaction();

@@ -36,7 +36,7 @@ Then it populates the roleId with the role name.
         .exec();
 
       // Extract role names
-      const roleNames = userRoles.map((ur) => (ur.roleId as any).name);
+      const roleNames = userRoles.map((roleName) => (roleName.roleId as any).name);
 
       // Check if user has any of the allowed roles
       const hasPermission = allowedRoles.some((allowedRole) =>
@@ -54,7 +54,7 @@ Then it populates the roleId with the role name.
       // Set user info in request (use first role as primary role for compatibility)
       const sanitizedUser = {
         id: decoded.id,
-        role: roleNames[0] || "User", // Use first role or default
+        role: roleNames[0] || "Customer", // Use first role or default
         email: decoded.email,
         userName: decoded.userName,
       };

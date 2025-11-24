@@ -1,5 +1,5 @@
 import Category from '../models/categoryModel';
-import { ICategory } from '../models/categoryModel';
+import { ICategory } from '@/types/category';
 
 export const CreateCategory = async (categoryData: ICategory) => {
   try {

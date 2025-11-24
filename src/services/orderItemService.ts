@@ -1,5 +1,5 @@
 import OrderItem from '../models/orderItemModel';
-import { IOrderItem } from '../models/orderModel';
+import { IOrderItem } from '@/types/orderItem';
 
 export const GetOrderItemsByOrderId = async (orderId: string) => {
   try {

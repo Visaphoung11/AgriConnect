@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import Product from '../models/productModel';
-import { IProduct } from '../models/productModel';
-
+import { IProduct } from '@/types/product';
 export const CreateProduct = async (productData: any) => {
   try {
     // Set default values for required fields if not provided

@@ -11,7 +11,6 @@ import { roleCheck } from "@/middlewares/roleMiddleware";
 import { UserRole } from "@/enum";
 const router = Router();
 
-// Apply role check middleware to all routes (Admin/Staff only)
 router.use(roleCheck([UserRole.ADMIN]));
 
 /**

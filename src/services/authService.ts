@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import Jwt from "jsonwebtoken";
 
 export const Registerservice = async (req: Request, res: Response) => {
-  const { email, firstName, lastName, userName, role, phone, age } =
+  const { email, firstName, lastName,  role, phone, age } =
     req.body;
   try {
     const existEmail = await UserModel.findOne({ email });
@@ -19,7 +19,6 @@ export const Registerservice = async (req: Request, res: Response) => {
     const newUser = new UserModel({
       firstName,
       lastName,
-      // userName,
       age,
       role,
       phone,
@@ -73,7 +72,7 @@ export const Loginservice = async (req: Request, res: Response) => {
       {
         id: existUser._id,
         email: existUser.email,
-        userName: existUser.userName,
+        // userName: existUser.userName,
       },
       process.env.JWT_SECRET || "SECRET_KEY",
       {}

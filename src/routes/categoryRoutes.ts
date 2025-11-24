@@ -64,7 +64,6 @@ const router = Router();
  *         description: Server error
  */
 
-// Apply authentication middleware to all routes
 router.use(roleCheck([UserRole.ADMIN, UserRole.FARMER, UserRole.SELLER]));
 
 router.get('/', getCategories);

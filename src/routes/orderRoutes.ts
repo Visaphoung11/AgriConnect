@@ -11,38 +11,35 @@ import { UserRole } from '@/enum';
 
 const router = Router();
 
-// Apply authentication middleware to all routes
+
 router.use(authenticate);
 
-// Create order - only BUYER can create orders
+
 router.post(
   "/",
   roleCheck([UserRole.ADMIN, UserRole.FARMER, UserRole.SELLER]),
   createOrder
 );
 
-// Get all orders - ADMIN, FARMER, and SELLER can view all orders
+
 router.get(
   '/',
   roleCheck([UserRole.ADMIN, UserRole.FARMER, UserRole.SELLER]),
   getOrders
 );
 
-// Get order by ID - ADMIN, FARMER, SELLER, or the BUYER who owns the order
 router.get(
   '/:id',
   roleCheck([UserRole.ADMIN, UserRole.FARMER, UserRole.SELLER, UserRole.BUYER]),
   getOrderById
 );
 
-// Update order status - ADMIN, FARMER, or SELLER can update status
 router.patch(
   '/:id/status',
   roleCheck([UserRole.ADMIN, UserRole.FARMER, UserRole.SELLER]),
   updateOrderStatus
 );
 
-// Delete order - only ADMIN can delete orders
 router.delete(
   '/:id',
   roleCheck([UserRole.ADMIN]),
